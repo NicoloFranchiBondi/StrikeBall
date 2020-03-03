@@ -18,7 +18,7 @@ import java.net.Socket;
 
 public class Connection {
  
-    int port = 25000;
+    int port = 2000;
     String messaggio;
     
     
@@ -31,7 +31,7 @@ public class Connection {
             Socket socket = new Socket("localhost",port);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
-            out.println("Ciao");
+            out.println("Messaggio dal Client");
             messaggio = in.readLine();
             System.out.println("Messaggio dal Server : " + messaggio);
             
