@@ -20,17 +20,23 @@ public class Connection {
  
     int port = 2000;
     String messaggio;
+    String send;
+    public static final String ANSI_GREEN = "\u001B[32m";
     
     
-    Connection(){
+    Connection(int port){
         this.port = port;   
     }
     
     public void connectionClient() {
+        do{
         try {
+            BufferedReader tastiera = new BufferedReader(new InputStreamReader(System.in));
             Socket socket = new Socket("localhost",port);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+            System.out.println("Digitare messaggio da inviare al server");
+            send = tastiera.readLine();
             out.println("Messaggio dal Client");
             messaggio = in.readLine();
             System.out.println("Messaggio dal Server : " + messaggio);
@@ -38,6 +44,7 @@ public class Connection {
         } catch (IOException ex) {
             System.err.println("Error opening socket");
         }
+        }while(!messaggio.equals("End") && !send.equals("End"));
     }
 }
 

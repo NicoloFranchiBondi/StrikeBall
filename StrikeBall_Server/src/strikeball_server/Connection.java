@@ -22,20 +22,25 @@ import java.util.logging.Logger;
 
 public class Connection {
     ServerSocket serverSocket = null;
-    int port = 2000;
+    int port;
     String messaggio;
-    ArrayList<Socket> richieste;
-    Connection(){
+    ArrayList<Thread> richieste;
+    Socket clientSocket;
+    Connection(int port){
         this.port = port;
+        //istruzione sopra c'è una imprecisione 
         this.richieste = new ArrayList();
     }
      public  void connectionServer() throws IOException {
+        serverSocket = new ServerSocket(port);
+        
         while(true){
         try{
                  
-                serverSocket = new ServerSocket(port);
+                
+                //istruzione da mettere fuori dal ciclo
                 System.out.println("Ready for connection...");   
-                Socket clientSocket= new Socket();
+                //Socket clientSocket= new Socket();
                 
                 
                 /*Pippo p = new Pippo(clientSocket);
@@ -46,15 +51,20 @@ public class Connection {
                     
                 clientSocket = serverSocket.accept();
                 
-                System.out.println("Connessione stabilita");
+                Gestore g = new Gestore(clientSocket);
+                Thread t = new Thread(g);
+                t.start();
+                this.richieste.add(t);
                 
-                BufferedReader in = new BufferedReader(
+                System.out.println("Connession established");
+                
+                /*BufferedReader in = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter out =
                     new PrintWriter(clientSocket.getOutputStream(),true);
                 messaggio = in.readLine();
-                System.out.println("Messaggio del client: " + messaggio);
-                out.println("Messaggio dal Server");
+                System.out.println("Client message: " + messaggio);
+                out.println("Server message");*///spostato su Gestore
                 
             }catch( IOException ex){
                   System.err.println("Error opening socket");

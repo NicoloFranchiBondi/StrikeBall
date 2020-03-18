@@ -9,7 +9,7 @@ public class StrikeBall_Server {
 
 
     public static void main(String[] args) throws IOException {
-       Connection conn = new Connection();
+       Connection conn = new Connection(2000);
        conn.connectionServer();
       
     }
