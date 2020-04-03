@@ -20,32 +20,48 @@ import java.util.logging.Logger;
 public class Gestore implements Runnable{
     
     Socket s;
-           
+    BufferedReader in = null;
+    PrintWriter out = null;  
+    String send;
+    String receive;
+    BufferedReader tastiera = null;
     
-    public Gestore(Socket s){
-       //this.s = new Socket();
+    public Gestore(Socket s) throws IOException{
+       
+       tastiera = new BufferedReader(new InputStreamReader(System.in));
+       in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+       out = new PrintWriter(s.getOutputStream(),true);
         this.s = s; 
     }
     @Override
     public void run() {
-        BufferedReader in = null;
+        
+        
         try {
-            in = new BufferedReader(
-                    new InputStreamReader(s.getInputStream()));
-            PrintWriter out =
-                    new PrintWriter(s.getOutputStream(),true);
-            String messaggio = in.readLine();
-            System.out.println("Client message: " + messaggio);
-            out.println("Server message");
+            do{
+
+                receive = in.readLine();
+                System.out.println("Client message: " + receive);
+                System.out.println("Inserire il messaggio da inviare");
+                send = tastiera.readLine();
+                out.println("Server message: "+send);
+            
+            
+            }while(!receive.equals("End") && !send.equals("End"));
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(Gestore.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        } 
+        
+        
             try {
                 in.close();
+                out.close();
             } catch (IOException ex) {
                 Logger.getLogger(Gestore.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        
     }
     
    

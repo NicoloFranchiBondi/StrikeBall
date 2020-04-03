@@ -26,56 +26,57 @@ public class Connection {
     String messaggio;
     ArrayList<Thread> richieste;
     Socket clientSocket;
+    
+    
+    
     Connection(int port){
         this.port = port;
         //istruzione sopra c'è una imprecisione 
         this.richieste = new ArrayList();
     }
-     public  void connectionServer() throws IOException {
+    
+    
+    
+    public  void connectionServer() throws IOException {
         serverSocket = new ServerSocket(port);
-        
+        System.out.println("Ready for connection...");  
         while(true){
         try{
                  
                 
-                //istruzione da mettere fuori dal ciclo
-                System.out.println("Ready for connection...");   
-                //Socket clientSocket= new Socket();
                 
-                
-                /*Pippo p = new Pippo(clientSocket);
-                Thread count=new Thread(p);
-                count.start();
-                    
-                //serverSocket.setSoTimeout(5000);*/
-                    
+                 
+                                    
                 clientSocket = serverSocket.accept();
                 
                 Gestore g = new Gestore(clientSocket);
                 Thread t = new Thread(g);
                 t.start();
-                this.richieste.add(t);
+                //this.richieste.add(t);
                 
                 System.out.println("Connession established");
                 
-                /*BufferedReader in = new BufferedReader(
-                    new InputStreamReader(clientSocket.getInputStream()));
-                PrintWriter out =
-                    new PrintWriter(clientSocket.getOutputStream(),true);
-                messaggio = in.readLine();
-                System.out.println("Client message: " + messaggio);
-                out.println("Server message");*///spostato su Gestore
+                
                 
             }catch( IOException ex){
                   System.err.println("Error opening socket");
             }
             
-            try {
+            
+        }
+        
+        /*try{
                 if(this.serverSocket!=null){
                 this.serverSocket.close();
                 System.out.println("Connessione chiusa");
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }}}
+            }*///metterlo in un altro metodo chiudi();
+    
+    }
+
+
+
+
+}
